@@ -2,7 +2,9 @@ pipeline {
     agent any
 
     environment {
+	branchName = "$BRANCH_NAME"
 	gitCommit = "${GIT_COMMIT[0..6]}"
+	buildNumber = "$BUILD_NUMBER"
 }
     
     stages {
@@ -14,9 +16,9 @@ pipeline {
         }
         stage('Fetch Branch Name') {
             steps {
-                   echo "The current branch is without script: ${env.BRANCH_NAME}"
+                   echo "The current branch is without script: $branchName"
                    echo "The current branch is without script: $gitCommit"
-                   echo "The current build number of the pipeline is: ${env.BUILD_NUMBER}"
+                   echo "The current build number of the pipeline is: $buildNumber"
             }
         }
         
