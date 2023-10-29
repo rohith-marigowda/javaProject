@@ -1,9 +1,10 @@
 pipeline {
     agent any
     environment {
-	branchName = "${BRANCH_NAME//\//-}"
-	branchName1 = ${branchName//\//-}
+	//branchName = "${BRANCH_NAME//\//-}"
+	branchName1 = $branchName.replaceAll('/', '-')
 	buildNumber = "$BUILD_NUMBER"
+	gitCommit = "${GIT_COMMIT[0..6]}"
 }
     stages {
         stage('Git checkout') {
