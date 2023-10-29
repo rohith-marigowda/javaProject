@@ -19,8 +19,7 @@ pipeline {
 		    echo "The current branch is without script: $repositoryName"
                    echo "The current branch is without script: $gitCommit"
                    echo "The current build number of the pipeline is: $buildNumber"
-            }
-		 
+            }	 
         }
         stage('masterBranch') {
             when {
