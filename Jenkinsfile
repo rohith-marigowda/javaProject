@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
 	branchName = sh(script: 'echo $BRANCH_NAME | sed "s#/#-#"', returnStdout: true).trim()
-	repositoryName = sh(script: 'echo $BRANCH_NAME | sed "s#/#-#" | sed "s#.git$##"', returnStdout: true).trim()
+	repositoryName = sh(script: 'echo $BRANCH_NAME | sed "s#/#-#" | sed "s#\\.git$##"', returnStdout: true).trim()
 	buildNumber = "$BUILD_NUMBER"
 	gitCommit = "${GIT_COMMIT[0..6]}"
 }
