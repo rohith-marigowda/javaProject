@@ -12,7 +12,7 @@ pipeline {
                 branch "master"
             }
             steps {
-                echo 'Trigger the test cases when code is pushed to master branch'
+                echo 'Trigger the test cases when code is pushed to master branch' 
             }
         }
         stage('releaseBranch') {
