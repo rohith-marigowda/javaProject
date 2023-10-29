@@ -2,8 +2,8 @@ pipeline {
     agent any
     environment {
 	branchNameOld = "$BRANCH_NAME"
-	def branchName = env.BRANCH_NAME
-	def modifiedBranchName = branchName.replaceAll("/", "-")
+	def branchName = "env.BRANCH_NAME"
+	def modifiedBranchName = 'branchName.replaceAll("/", "-")'
 	buildNumber = "$BUILD_NUMBER"
 	gitCommit = "${GIT_COMMIT[0..6]}"
 }
