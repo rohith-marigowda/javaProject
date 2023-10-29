@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-	branchName = "$BRANCH_NAME"
-	repositoryName = $(echo "$BRANCH_NAME" | sed 's/\.git$//')
+	branchName = sh(script: 'echo $BRANCH_NAME | sed "s#/#-#"', returnStdout: true).trim()
+	MY_VARIABLE = sh(script: 'echo $branchName | sed "s/\\.git$//"', returnStdout: true).trim()
 	buildNumber = "$BUILD_NUMBER"
 	gitCommit = "${GIT_COMMIT[0..6]}"
 }
@@ -16,7 +16,7 @@ pipeline {
          stage('Fetch Branch Name') {
             steps {
                    echo "The current branch is without script: $branchName"
-		    echo "The current branch is without script: $repositoryName"
+		    echo "The current branch is without script: $MY_VARIABLE"
                    echo "The current branch is without script: $gitCommit"
                    echo "The current build number of the pipeline is: $buildNumber"
             }	 
