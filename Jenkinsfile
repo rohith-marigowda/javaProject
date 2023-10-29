@@ -1,9 +1,8 @@
 pipeline {
     agent any
     environment {
-	branchName = "$BRANCH_NAME"
+	branchName = "${BRANCH_NAME//\//-}"
 	branchName1 = ${branchName//\//-}
-	gitCommit = "${GIT_COMMIT[0..6]}"
 	buildNumber = "$BUILD_NUMBER"
 }
     stages {
