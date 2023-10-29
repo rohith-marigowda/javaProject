@@ -11,7 +11,7 @@ pipeline {
             }
         }
         stage('test') {
-          echo "The current branch is: $branchName"
+          sh 'echo "The current branch is: $branchName"'
         }
     }
 }
