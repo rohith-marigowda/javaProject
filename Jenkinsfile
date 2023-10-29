@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    environment {
-	branchName = env.BRANCH_NAME
-}
+    
     stages {
         stage('Git checkout') {
             steps {
@@ -10,8 +8,14 @@ pipeline {
                 git 'https://github.com/rohith-marigowda/javaProject.git' 
             }
         }
-        stage('test') {
-          sh 'echo "The current branch is: $branchName"'
+        stage('Fetch Branch Name') {
+            steps {
+                script {
+                    // Access the BRANCH_NAME environment variable
+                    def branchName = env.BRANCH_NAME
+                    echo "The current branch is: $branchName"
+                }
+            }
         }
     }
 }
