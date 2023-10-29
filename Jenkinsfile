@@ -21,6 +21,13 @@ pipeline {
                    echo "The current build number of the pipeline is: $buildNumber"
             }
         }
+        stage('Fetch Branch Name1') {
+             script {
+                    def originalBranchName = sh(script: 'echo $BRANCH_NAME', returnStdout: true).trim()
+                    def modifiedBranchName = sh(script: 'echo $originalBranchName | sed "s#/#-#"', returnStdout: true).trim()
+                    echo "Modified Branch Name: $modifiedBranchName"
+                }
+        }
         stage('masterBranch') {
             when {
                 branch "master"
