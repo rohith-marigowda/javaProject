@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
 	branchName = "$BRANCH_NAME"
-	branchName1 = $branchName.replaceAll('/', '-')
 	def branchName = env.BRANCH_NAME
 	def modifiedBranchName = branchName.replaceAll("/", "-")
 	buildNumber = "$BUILD_NUMBER"
