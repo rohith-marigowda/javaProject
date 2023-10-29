@@ -1,5 +1,5 @@
 pipeline {
-    agent slave3
+    agent {label 'slave3'}
     environment {
 	branchName = sh(script: 'echo $BRANCH_NAME | sed "s#/#-#"', returnStdout: true).trim()
 	buildNumber = "$BUILD_NUMBER"
