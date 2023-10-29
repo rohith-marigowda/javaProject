@@ -22,12 +22,6 @@ pipeline {
 		   echo "docker image is : $dockerImage"
             }	 
         }
-
-	stage('DockerImageBuild'){
-            steps {
-                  
-            }	 
-        }
 	    
         stage('masterBranch') {
             when {
