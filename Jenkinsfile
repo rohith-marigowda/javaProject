@@ -5,7 +5,6 @@ pipeline {
 	AWS_REGION = "ap-south-1"
 	AWS_ECR_URL = "878226295837.dkr.ecr.ap-south-1.amazonaws.com"
 	AWS_ECR_REPONAME = "$AWS_ECR_URL/dockerassignment-cicd"
-	GITCOMMIT = "${GIT_COMMIT[0..6]}"
 	DOCKER_IMAGE_MASTER = "$AWS_ECR_REPONAME:${BRANCH_NAME}"
 	DOCKER_IMAGE_LATEST = "$AWS_ECR_REPONAME:latest"
 	
