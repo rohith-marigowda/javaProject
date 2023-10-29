@@ -28,6 +28,7 @@ pipeline {
 		    }
             }
         }
+	    
         stage('deploy') {
             steps {
                 sh 'docker run -it -p 9095:8080 ${dockerImage}'	
