@@ -15,6 +15,7 @@ pipeline {
                 echo 'Trigger the test cases when code is pushed to master branch'
             }
         }
+        
         stage('releaseBranch') {
             when {
                 branch "release/*"
