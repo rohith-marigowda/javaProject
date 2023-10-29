@@ -4,10 +4,12 @@ pipeline {
 	    
 	BRANCHNAME = sh(script: 'echo $BRANCH_NAME | sed "s#/#-#"', returnStdout: true).trim()
 	GITCOMMIT = "${GIT_COMMIT[0..6]}"
-	DOCKER_IMAGE = "878226295837.dkr.ecr.ap-south-1.amazonaws.com/dockerassignment-cicd:${BRANCHNAME}-${GITCOMMIT}-${BUILD_NUMBER}"
 	AWS_REGION = "ap-south-1"
-	AWS_ECR_REPONAME = "878226295837.dkr.ecr.ap-south-1.amazonaws.com"
-	ECR_LOGIN = "aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${AWS_ECR_REPONAME}"
+	AWS_ECR_URL = "878226295837.dkr.ecr.ap-south-1.amazonaws.com"
+	AWS_ECR_REPONAME = "$AWS_ECR_URL/dockerassignment-cicd"
+	DOCKER_IMAGE = "$AWS_ECR_REPONAME:${BRANCHNAME}"
+	DOCKER_IMAGE_LATEST = "$AWS_ECR_REPONAME:latest"
+	ECR_LOGIN = "aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${AWS_ECR_URL}"
 }
     stages {
         stage('Git checkout') {
@@ -16,18 +18,25 @@ pipeline {
                 git 'https://github.com/rohith-marigowda/javaProject.git' 
             }
         }
+
+	stage('Run Unit and Integration tests'){
+  	    steps {
+		echo 'In this step run unit and integration tests'
+	    }
+	 }
+	
          stage('Build docker image') {
             steps {
 		sh 'docker build --tag ${DOCKER_IMAGE} .'
+		sh 'docker build --tag ${DOCKER_IMAGE_LATEST} .'
             }	 
         }
 	    
         stage('docker image push to ECR') {
             steps {
-		    script{
-			sh "$ECR_LOGIN"
-			sh 'docker push ${DOCKER_IMAGE}'    
-		    }
+		sh "$ECR_LOGIN"
+		sh 'docker push ${DOCKER_IMAGE}'
+		sh 'docker push ${DOCKER_IMAGE_LATEST}'
             }
         }
 	    
