@@ -10,17 +10,10 @@ pipeline {
         }
         stage('Fetch Branch Name') {
             steps {
-                script {
-                    // Access the BRANCH_NAME environment variable
-                    def branchName = env.BRANCH_NAME
-                    echo "The current branch is: $branchName"
-                }
+                   echo "The current branch is without script: ${env.BRANCH_NAME}"
+                   echo "The current build number of the pipeline is: ${env.BUILD_NUMBER}"
             }
         }
-        stage('Test'){
-            steps{
-                echo "The current branch is without script: ${env.BRANCH_NAME}"
-            }
+        
     }
-}
 }
