@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-	branchName = "$BRANCH_NAME"
+	branchName = "$BRANCH_NAME | sed 's/\//\-/'"
 	gitCommit = "${GIT_COMMIT[0..6]}"
 	buildNumber = "$BUILD_NUMBER"
 }
