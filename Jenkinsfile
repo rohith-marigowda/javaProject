@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
 	branchName = "$BRANCH_NAME"
-	branchName1 = $(echo "branchName" | sed 's/\//\-/')
+	branchName1 = ${branchName//\//-}
 	gitCommit = "${GIT_COMMIT[0..6]}"
 	buildNumber = "$BUILD_NUMBER"
 }
