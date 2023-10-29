@@ -11,6 +11,7 @@ pipeline {
         stage('Fetch Branch Name') {
             steps {
                    echo "The current branch is without script: ${env.BRANCH_NAME}"
+                   echo "The current branch is without script: ${env.GIT_COMMIT}"
                    echo "The current build number of the pipeline is: ${env.BUILD_NUMBER}"
             }
         }
