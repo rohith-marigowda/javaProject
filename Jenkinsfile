@@ -1,5 +1,16 @@
 pipeline {
-    agent any
+    agent {label 'slave3'}
+    environment {
+	    
+	BRANCHNAME = sh(script: 'echo $BRANCH_NAME | sed "s#/#-#"', returnStdout: true).trim()
+	GITCOMMIT = "${GIT_COMMIT[0..6]}"
+	AWS_REGION = "ap-south-1"
+	AWS_ECR_URL = "878226295837.dkr.ecr.ap-south-1.amazonaws.com"
+	AWS_ECR_REPONAME = "$AWS_ECR_URL/dockerassignment-cicd"
+	DOCKER_IMAGE = "$AWS_ECR_REPONAME:${BRANCHNAME}-${GITCOMMIT}"
+	DOCKER_IMAGE_LATEST = "$AWS_ECR_REPONAME:latest"
+	ECR_LOGIN = "aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${AWS_ECR_URL}"
+}
     stages {
         stage('Git checkout') {
             steps {
@@ -7,20 +18,31 @@ pipeline {
                 git 'https://github.com/rohith-marigowda/javaProject.git' 
             }
         }
-        stage('masterBranch') {
-            when {
-                branch "master"
-            }
+
+	stage('Run Unit and Integration tests'){
+  	    steps {
+		echo 'In this step run unit and integration tests'
+	    }
+	 }
+	
+         stage('Build docker image') {
             steps {
-                echo 'Trigger the test cases when code is pushed to master branch'
+		sh 'docker build --tag ${DOCKER_IMAGE} .'
+		sh 'docker build --tag ${DOCKER_IMAGE_LATEST} .'
+            }	 
+        }
+	    
+        stage('docker image push to ECR') {
+            steps {
+		sh "$ECR_LOGIN"
+		sh 'docker push ${DOCKER_IMAGE}'
+		sh 'docker push ${DOCKER_IMAGE_LATEST}'
             }
         }
-        stage('releaseBranch') {
-            when {
-                branch "release/*"
-            }
+	    
+        stage('deploy') {
             steps {
-                echo 'Trigger the test cases when code is pushed to release branch'
+                sh 'docker run -d -p 9095:8080 ${DOCKER_IMAGE}'	
             }
         }
     }
