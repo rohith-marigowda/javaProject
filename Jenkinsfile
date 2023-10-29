@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-	gitCommit = $(echo $GIT_COMMIT | cut -c 1-7)
+	gitCommit = "${GIT_COMMIT[0..6]}"
 }
     
     stages {
