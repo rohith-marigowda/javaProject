@@ -1,10 +1,10 @@
 pipeline {
-    agent any
+    agent slave3
     environment {
 	branchName = sh(script: 'echo $BRANCH_NAME | sed "s#/#-#"', returnStdout: true).trim()
 	buildNumber = "$BUILD_NUMBER"
 	gitCommit = "${GIT_COMMIT[0..6]}"
-	dockerImage = "878226295837.dkr.ecr.ap-south-1.amazonaws.com/javaproject-cicd:${branchName}-${gitCommit}-${buildNumber}"
+	dockerImage = "878226295837.dkr.ecr.ap-south-1.amazonaws.com/dockerassignment-cicd:${branchName}-${gitCommit}-${buildNumber}"
 	ecrURL = "aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 878226295837.dkr.ecr.ap-south-1.amazonaws.com"
 }
     stages {
@@ -14,29 +14,21 @@ pipeline {
                 git 'https://github.com/rohith-marigowda/javaProject.git' 
             }
         }
-         stage('Fetch Branch Name') {
+         stage('Build docker image') {
             steps {
-                   echo "The current branch is without script: $branchName"
-                   echo "The git commid id is : $gitCommit"
-                   echo "The current build number of the pipeline is: $buildNumber"
-		   echo "docker image is : $dockerImage"
+		sh 'docker build --tag ${dockerImage}'
             }	 
         }
 	    
-        stage('masterBranch') {
-            when {
-                branch "master"
-            }
+        stage('docker image push to ECR') {
             steps {
-                echo 'Trigger the test cases when code is pushed to master branch' 
+                sh '$ecrURL'
+		sh 'docker push ${dockerImage}'
             }
         }
-        stage('releaseBranch') {
-            when {
-                branch "release/*"
-            }
+        stage('deploy') {
             steps {
-                echo 'Trigger the test cases when code is pushed to release branch'
+                sh 'docker run -it -p 9095:8080 ${dockerImage}'	
             }
         }
     }
