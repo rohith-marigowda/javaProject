@@ -2,9 +2,10 @@ pipeline {
     agent any
     environment {
 	branchName = sh(script: 'echo $BRANCH_NAME | sed "s#/#-#"', returnStdout: true).trim()
-	repoName = "$env.BRANCH_NAME"
 	buildNumber = "$BUILD_NUMBER"
 	gitCommit = "${GIT_COMMIT[0..6]}"
+	dockerImage = "878226295837.dkr.ecr.ap-south-1.amazonaws.com/javaproject-cicd:${branchName}-${gitCommit}-${buildNumber}"
+	ecrURL = "aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 878226295837.dkr.ecr.ap-south-1.amazonaws.com"
 }
     stages {
         stage('Git checkout') {
@@ -17,10 +18,17 @@ pipeline {
             steps {
                    echo "The current branch is without script: $branchName"
                    echo "The git commid id is : $gitCommit"
-		    echo "repo name is : $repoName"
                    echo "The current build number of the pipeline is: $buildNumber"
+		   echo "docker image is : $dockerImage"
             }	 
         }
+
+	stage('DockerImageBuild'){
+            steps {
+                  
+            }	 
+        }
+	    
         stage('masterBranch') {
             when {
                 branch "master"
