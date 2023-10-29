@@ -1,8 +1,7 @@
 pipeline {
     agent any
     environment {
-	branchNameOld = "$BRANCH_NAME"
-	MODIFIED_BRANCH_NAME = sh(script: 'echo $BRANCH_NAME | sed "s#/#-#", returnStdout: true).trim()
+	BranchName = sh(script: 'echo $BRANCH_NAME | sed "s#/#-#", returnStdout: true).trim()
 	buildNumber = "$BUILD_NUMBER"
 	gitCommit = "${GIT_COMMIT[0..6]}"
 }
@@ -15,7 +14,7 @@ pipeline {
         }
          stage('Fetch Branch Name') {
             steps {
-                   echo "The current branch is without script: $MODIFIED_BRANCH_NAME"
+                   echo "The current branch is without script: $BranchName"
                    echo "The current branch is without script: $gitCommit"
                    echo "The current build number of the pipeline is: $buildNumber"
             }
