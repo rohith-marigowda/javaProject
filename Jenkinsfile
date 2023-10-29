@@ -15,7 +15,7 @@ pipeline {
         stage('Git checkout') {
             steps {
                 echo 'We are now checking out the git repository'
-                git branch: '', credentialsId: 'github', url: 'https://github.com/rohith-marigowda/javaProject.git'
+                git 'https://github.com/rohith-marigowda/javaProject.git'
             }
         }
 
