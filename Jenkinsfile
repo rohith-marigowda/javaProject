@@ -23,7 +23,7 @@ pipeline {
         stage('docker image push to ECR') {
             steps {
 		    script{
-			sh '$ecrURL'
+			sh "$ecrURL"
 			sh 'docker push ${dockerImage}'    
 		    }
             }
