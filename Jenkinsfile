@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Test'){
             steps{
-                 ah "echo 'The current branch is without script: ${env.BRANCH_NAME}'"
+                 sh "echo 'The current branch is without script: ${env.BRANCH_NAME}'"
             }
     }
 }
