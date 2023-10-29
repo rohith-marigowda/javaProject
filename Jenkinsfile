@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+	branchName = env.BRANCH_NAME
+}
     stages {
         stage('Git checkout') {
             steps {
@@ -8,7 +11,7 @@ pipeline {
             }
         }
         stage('test') {
-          sh 'echo Branch Name: $BRANCH_NAME'
+          echo "The current branch is: $branchName"
         }
     }
 }
