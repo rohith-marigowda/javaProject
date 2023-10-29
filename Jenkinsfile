@@ -39,7 +39,7 @@ pipeline {
 		sh 'docker push ${DOCKER_IMAGE}'
 		sh 'docker push ${DOCKER_IMAGE_LATEST}'
             }
-        }
+        }	
 	    
         stage('deploy') {
             steps {
