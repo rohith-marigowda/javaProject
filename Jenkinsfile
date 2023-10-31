@@ -16,7 +16,6 @@ pipeline {
         stage('Git checkout') {
             steps {
                 echo 'We are now checking out the git repository'
-		echo 'prject name is : ${PROJECT_NAME}'
                 git 'https://github.com/rohith-marigowda/javaProject.git' 
             }
         }
@@ -45,6 +44,7 @@ pipeline {
         stage('deploy') {
             steps {
                 sh 'docker run -d -p 9095:8080 ${DOCKER_IMAGE}'	
+		echo 'prject name is : ${PROJECT_NAME}'
             }
         }
     }
