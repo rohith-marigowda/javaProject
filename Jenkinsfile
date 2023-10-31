@@ -43,8 +43,7 @@ pipeline {
 	    
         stage('deploy') {
             steps {
-                sh 'docker run -d -p 9095:8080 ${DOCKER_IMAGE}'	
-		echo 'prject name is : ${PROJECT_NAME}'
+                sh 'docker run -d -p 9095:8080 ${DOCKER_IMAGE}'
             }
         }
     }
