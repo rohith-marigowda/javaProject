@@ -1,7 +1,6 @@
 pipeline {
     agent {label 'slave3'}
     environment {
-	    
 	AWS_REGION = "ap-south-1"
 	AWS_ECR_URL = "878226295837.dkr.ecr.ap-south-1.amazonaws.com"
 	AWS_ECR_REPONAME = "$AWS_ECR_URL/dockerassignment-cicd"
