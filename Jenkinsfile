@@ -7,7 +7,7 @@ pipeline {
 	AWS_REGION = "ap-south-1"
 	AWS_ECR_URL = "878226295837.dkr.ecr.ap-south-1.amazonaws.com"
 	AWS_ECR_REPONAME = "$AWS_ECR_URL/dockerassignment-cicd"
-	DOCKER_IMAGE = "$AWS_ECR_REPONAME:${BRANCHNAME}-${GITCOMMIT}"
+	DOCKER_IMAGE = "$AWS_ECR_REPONAME:${BRANCHNAME}-${GITCOMMIT}-${BUILD_NUMBER}"
 	DOCKER_IMAGE_LATEST = "$AWS_ECR_REPONAME:latest"
 	ECR_LOGIN = "aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${AWS_ECR_URL}"
 }
