@@ -11,6 +11,7 @@ pipeline {
 	DOCKER_IMAGE_LATEST = "$AWS_ECR_REPONAME:latest"
 	ECR_LOGIN = "aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${AWS_ECR_URL}"
 }
+	
     stages {
         stage('Git checkout') {
             steps {
