@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'slave3'}
+    agent {label 'slave4'}
     environment {
 	    
 	BRANCHNAME = sh(script: 'echo $BRANCH_NAME | sed "s#/#-#"', returnStdout: true).trim()
