@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'slave3'}
+    agent any
     environment {
 	AWS_REGION = "ap-south-1"
 	AWS_ECR_URL = "878226295837.dkr.ecr.ap-south-1.amazonaws.com"
