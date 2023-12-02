@@ -38,13 +38,14 @@ pipeline {
             steps {
 		    script{
 			withCredentials([[
-                        $class: 'AmazonWebServicesCredentialsBinding',
-                        accessKeyVariable: 'AWS_ACCESS_KEY',
-                        credentialsId: 'aws_accesskey_id',
-                        secretKeyVariable: 'AWS_SECRET_KEY'
-                    ]])
-			sh 'docker push ${DOCKER_IMAGE_MASTER}'
-			sh 'docker push ${DOCKER_IMAGE_LATEST}'
+                $class: 'AmazonWebServicesCredentialsBinding',
+                accessKeyVariable: 'AWS_ACCESS_KEY',
+                credentialsId: 'aws_accesskey_id',
+                secretKeyVariable: 'AWS_SECRET_KEY'
+            ]]) {
+                sh "docker push ${DOCKER_IMAGE_MASTER}"
+                sh "docker push ${DOCKER_IMAGE_LATEST}"
+            }
 		    }
             }
         }
