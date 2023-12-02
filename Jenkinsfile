@@ -15,6 +15,7 @@ pipeline {
         stage('Git checkout') {
             steps {
                 echo 'We are now checking out the git repository'
+		echo '$AWS_ACCESS_KEY'
                 git 'https://github.com/rohith-marigowda/javaProject.git'
             }
         }
@@ -27,8 +28,8 @@ pipeline {
 	    
          stage('Build docker image') {
             steps {
-		sh 'docker build --tag ${DOCKER_IMAGE_MASTER} .'
-		sh 'docker build --tag ${DOCKER_IMAGE_LATEST} .'
+		//sh 'docker build --tag ${DOCKER_IMAGE_MASTER} .'
+		//sh 'docker build --tag ${DOCKER_IMAGE_LATEST} .'
             }	 
         }
 	    
