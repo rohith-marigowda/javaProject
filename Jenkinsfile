@@ -29,18 +29,20 @@ pipeline {
          stage('Build docker image') {
             steps {
 		    echo 'test'
-		//sh 'docker build --tag ${DOCKER_IMAGE_MASTER} .'
-		//sh 'docker build --tag ${DOCKER_IMAGE_LATEST} .'
+		sh 'docker build --tag ${DOCKER_IMAGE_MASTER} .'
+		sh 'docker build --tag ${DOCKER_IMAGE_LATEST} .'
             }	 
         }
 	    
         stage('docker image push to ECR') {
             steps {
 		    script{
-			sh "$AWS_ACCESS_KEY"
-			sh "$AWS_SECRET_KEY"
-			sh "$AWS_REGION"
-			sh "$ECR_LOGIN"
+			withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        accessKeyVariable: 'AWS_ACCESS_KEY',
+                        credentialsId: 'aws_accesskey_id',
+                        secretKeyVariable: 'AWS_SECRET_KEY'
+                    ]])
 			sh 'docker push ${DOCKER_IMAGE_MASTER}'
 			sh 'docker push ${DOCKER_IMAGE_LATEST}'
 		    }
