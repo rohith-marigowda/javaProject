@@ -35,15 +35,27 @@ pipeline {
         }
 	    
         stage('docker image push to ECR') {
+    environment {
+        AWS_ACCESS_KEY = credentials('aws_accesskey_id')
+        AWS_SECRET_KEY = credentials('aws_secretkey_id')
+    }
+
     steps {
         script {
-            withAWS(credentials: ['aws_accesskey_id']) {
-                sh "docker push ${DOCKER_IMAGE_MASTER}"
-                sh "docker push ${DOCKER_IMAGE_LATEST}"
-            }
+            sh """
+                export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY}
+                export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_KEY}
+                aws configure set aws_access_key_id ${AWS_ACCESS_KEY}
+                aws configure set aws_secret_access_key ${AWS_SECRET_KEY}
+                aws configure set default.region ${AWS_REGION}
+                aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_URL}
+                docker push ${DOCKER_IMAGE_MASTER}
+                docker push ${DOCKER_IMAGE_LATEST}
+            """
         }
     }
 }
+
 
 	    
         stage('deploy') {
