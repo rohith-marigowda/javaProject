@@ -55,12 +55,11 @@ pipeline {
         }
     }
 }
-
-
-	    
-        stage('deploy') {
-            steps {
-                sh 'docker run -d -p 9095:8080 ${DOCKER_IMAGE_MASTER}'	
+	    stage('Deploy to k8s'){
+            steps{
+                script{
+                    kubernetesDeploy (configs: 'deploymentservice.yaml',kubeconfigId: 'k8sconfigpwd')
+                }
             }
         }
     }
