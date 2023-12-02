@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: tomcat-with-k8s
-          image: 878226295837.dkr.ecr.ap-south-1.amazonaws.com/dockerassignment-cicd # Image that will be used to containers in the cluster
+          image: javatechie/devops-integration # Image that will be used to containers in the cluster
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080 # The port that the container is running on in the cluster
@@ -30,6 +30,7 @@ spec:
   selector:
     app: tomcat-with-k8s
   ports:
+    - protocol: "TCP"
       port: 8080 # The port that the service is running on in the cluster
       targetPort: 8080 # The port exposed by the service
       nodePort: 32000
