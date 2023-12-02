@@ -2,6 +2,8 @@ pipeline {
     agent any
     environment {
 	AWS_REGION = "ap-south-1"
+	AWS_ACCESS_KEY = credentials('aws_accesskey_id')
+	AWS_SECRET_KEY = credentials('aws_secretkey_id')
 	AWS_ECR_URL = "878226295837.dkr.ecr.ap-south-1.amazonaws.com"
 	AWS_ECR_REPONAME = "$AWS_ECR_URL/dockerassignment-cicd"
 	DOCKER_IMAGE_MASTER = "$AWS_ECR_REPONAME:${BRANCH_NAME}"
@@ -33,6 +35,9 @@ pipeline {
         stage('docker image push to ECR') {
             steps {
 		    script{
+			sh "$AWS_ACCESS_KEY"
+			sh "$AWS_SECRET_KEY"
+			sh "$AWS_REGION"
 			sh "$ECR_LOGIN"
 			sh 'docker push ${DOCKER_IMAGE_MASTER}'
 			sh 'docker push ${DOCKER_IMAGE_LATEST}'
